@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Flask con ChatGPT</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>¡Hola, mundo!</h1>
+        <h2>¡Bienvenido a tu página Flask!</h2>
+        <p>Esta es una página web básica construida con Flask.</p>
+        <img src="{{ url_for('static', filename='img/openAILogo.png') }}" alt="Logo OpenAI">
+    </div>
+    <form method="POST" action="/">
+        <label for="textarea">Escribe algo para enviar a ChatGPT: </label>
+        <br>
+        <textarea id="textarea" name="textarea" rows="5" column="30"></textarea>
+        <br>
+        <button type="submit">Enviar</button>
+    </form>
+
+    {% if conversation %}
+    <h2>Historial de conversación:</h2>
+    <div style="border: 1px solid #333; padding: 10px; background-color: #f9f9f9;">
+        {% for message in conversation %}
+            <p><strong>{{ message.role }}:</strong> {{ message.content }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <form method="POST" action="/reset">
+        <button type="submit">Reiniciar Conversación</button>
+    </form>
+</body>
+</html>
