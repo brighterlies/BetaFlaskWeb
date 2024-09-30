@@ -3,16 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página Flask con Formulario</title>
+    <title>Resultado</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>Resultado del formulario</h1>
-    <p>Texto enviado:</p>
-    <div style="border: 1px solid #333; padding: 10px; background-color: #f9f9f9;">
-        {{text}}
-    </div>
-    <br>
-    <a href="/">Volver a la página principal</a>
+    <h1>Resultado del juego</h1>
+    <p>Tu elección: {{ user_choice }}</p>
+    <p>Elección de la computadora: {{ computer_choice }}</p>
+    <p>Resultado: {{ result }}</p>
+    <a href="/game.html">Jugar de nuevo</a>
 </body>
 </html>
