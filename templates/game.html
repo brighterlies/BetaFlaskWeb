@@ -8,10 +8,12 @@
 </head>
 <body>
     <h1>Elige tu jugada</h1>
-    <form method="POST" action="/game.html">
+    <form method="POST" action="{{ url_for('game') }}">
         <button type="submit" name="choice" value="Piedra">Piedra</button>
         <button type="submit" name="choice" value="Papel">Papel</button>
         <button type="submit" name="choice" value="Tijera">Tijera</button>
     </form>
+    <br>
+    <a href="/">Volver al inicio</a> <!-- Enlace para volver al inicio -->
 </body>
 </html>

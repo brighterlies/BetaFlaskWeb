@@ -57,13 +57,16 @@ def reset_conversation():
     session.pop('conversation', None)
     return render_template('chatbot.html', conversation=[])
 
-@app.route('/game.html', methods=['POST'])
-def play():
-    user_choice = request.form['choice']
-    choices = ['Piedra', 'Papel', 'Tijera']
-    computer_choice = random.choice(choices)
-    result = determine_winner(user_choice, computer_choice)
-    return render_template('result.html', user_choice=user_choice, computer_choice=computer_choice, result=result)
+@app.route('/game.html', methods=['GET', 'POST'])
+def game():
+    if request.method == 'POST':
+        user_choice = request.form.get('choice')
+        if user_choice:
+            choices = ['Piedra', 'Papel', 'Tijera']
+            computer_choice = random.choice(choices)
+            result = determine_winner(user_choice, computer_choice)
+            return render_template('result.html', user_choice=user_choice, computer_choice=computer_choice, result=result)
+    return render_template('game.html')
 
 def determine_winner(user, computer):
     if user == computer:
