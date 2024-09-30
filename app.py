@@ -18,6 +18,7 @@ client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
 def index():
     return render_template('index.html')
 
+# Estructura de Chatbot
 @app.route('/chatbot.html', methods=['GET', 'POST'])
 def chatbot():
     # Si no existe un historial de la conversación, créalo
@@ -57,18 +58,22 @@ def reset_conversation():
     session.pop('conversation', None)
     return render_template('chatbot.html', conversation=[])
 
+# Estructura de Piedra, Papel o Tijera
 @app.route('/game.html', methods=['GET', 'POST'])
 def game():
     if request.method == 'POST':
+        # Guarda la elección del usuario
         user_choice = request.form.get('choice')
         if user_choice:
             choices = ['Piedra', 'Papel', 'Tijera']
+            # Solicita la elección de la computadora de forma aleatoria
             computer_choice = random.choice(choices)
             result = determine_winner(user_choice, computer_choice)
             return render_template('result.html', user_choice=user_choice, computer_choice=computer_choice, result=result)
     return render_template('game.html')
 
 def determine_winner(user, computer):
+    # Evalua cada resultado según cada elección
     if user == computer:
         return 'Empate'
     elif (user == 'Piedra' and computer == 'Tijera') or (user == 'Papel' and computer == 'Piedra') or (user == 'Tijera' and computer == 'Papel'):
