@@ -1,4 +1,4 @@
-import os
+import os, random
 from flask import Flask, render_template, request, session
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -15,7 +15,11 @@ app.secret_key = os.getenv('SECRET_KEY', 'tu_clave_secreta')
 client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
 
 @app.route('/', methods=['GET', 'POST'])
-def home():
+def index():
+    return render_template('index.html')
+
+@app.route('/chatbot.html', methods=['GET', 'POST'])
+def chatbot():
     # Si no existe un historial de la conversación, créalo
     if 'conversation' not in session:
         session['conversation'] = []
@@ -32,7 +36,7 @@ def home():
         session.modified = True  
         # Se encaga de mantener el historial de la conversacion actualizado
 
-    return render_template('index.html', conversation=session['conversation'])
+    return render_template('chatbot.html', conversation=session['conversation'])
 
 def chatgpt_response(text):
     try:
@@ -47,11 +51,27 @@ def chatgpt_response(text):
     except Exception as e:
         return f"Error: {str(e)}"
 
-@app.route('/reset', methods=['POST'])
+@app.route('/chatbot.html/reset', methods=['POST'])
 def reset_conversation():
     # Reestablece el historial de la conversación
     session.pop('conversation', None)
-    return render_template('index.html', conversation=[])
+    return render_template('chatbot.html', conversation=[])
+
+@app.route('/game.html', methods=['POST'])
+def play():
+    user_choice = request.form['choice']
+    choices = ['Piedra', 'Papel', 'Tijera']
+    computer_choice = random.choice(choices)
+    result = determine_winner(user_choice, computer_choice)
+    return render_template('result.html', user_choice=user_choice, computer_choice=computer_choice, result=result)
+
+def determine_winner(user, computer):
+    if user == computer:
+        return 'Empate'
+    elif (user == 'Piedra' and computer == 'Tijera') or (user == 'Papel' and computer == 'Piedra') or (user == 'Tijera' and computer == 'Papel'):
+        return 'Ganaste'
+    else:
+        return 'Perdiste'
 
 if __name__ == '__main__':
     app.run(debug=True)
