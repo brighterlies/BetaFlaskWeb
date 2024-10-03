@@ -81,6 +81,28 @@ def determine_winner(user, computer):
     else:
         return 'Perdiste'
 
+# Estructura de Calculadora
+@app.route('/calculate', methods=['GET', 'POST'])
+def calculate():
+    result = None
+    if request.method == 'POST':
+        try:
+            num1 = float(request.form['num1'])
+            num2 = float(request.form['num2'])
+            operation = request.form['operation']
+            if operation == 'add':
+                result = num1 + num2
+            elif operation == 'subtract':
+                result = num1 - num2
+            elif operation == 'multiply':
+                result = num1 * num2
+            elif operation == 'divide':
+                result = num1 / num2
+        except (ValueError, ZeroDivisionError):
+            result = "Error en la operación."
+
+    return render_template('calculate.html', result=result)
+
 if __name__ == '__main__':
     app.run(debug=True)
 

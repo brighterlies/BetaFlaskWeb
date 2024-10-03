@@ -10,10 +10,11 @@
     <div class="container">
         <img src="{{ url_for('static', filename='img/openAILogo.png') }}" alt="Logo OpenAI">
     </div>
-    <form method="POST" action="{{ url_for('chatbot') }}"></form>
-        <label for="textarea">Escribe algo para enviar a ChatGPT: </label>
+    
+    <form method="POST" action="{{ url_for('chatbot') }}">
+        <label for="textarea">Escribe algo para enviar a ChatGPT:</label>
         <br>
-        <textarea id="textarea" name="textarea" rows="5" column="30"></textarea>
+        <textarea id="textarea" name="textarea" rows="5" cols="30"></textarea>
         <br>
         <button type="submit">Enviar</button>
     </form>
@@ -27,7 +28,7 @@
     </div>
     {% endif %}
 
-    <form method="POST" action="/chatbot.html/reset">
+    <form method="POST" action="{{ url_for('reset_conversation') }}"> <!-- Usar url_for para la acción de reinicio -->
         <button type="submit">Reiniciar Conversación</button>
     </form>
 
